@@ -5,3 +5,21 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Sofia
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - ./transmission/config:/config
+      - ./transmission/watch:/watch
+      - ~/hdds:/downloads
+    restart: unless-stopped
