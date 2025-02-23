@@ -10,16 +10,27 @@ services:
   prometheus:
     container_name: premetheus
     image: prom/prometheus
-    network_mode: host
-    restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus
     ports:
       - 9090:9090
+    restart: unless-stopped
+
+  node_exporter:
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter:latest
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    ports:
+      - 9100:9100
+    restart: unless-stopped
 
   transmission:
-    image: ghcr.io/linuxserver/transmission
     container_name: transmission
+    image: ghcr.io/linuxserver/transmission
     environment:
       - PUID=1000
       - PGID=1000
