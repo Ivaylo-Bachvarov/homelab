@@ -3,9 +3,19 @@ services:
     container_name: loki
     image: grafana/loki:latest
     ports:
-      - "3100:3100"
+      - 3100:3100
     command: -config.file=/etc/loki/local-config.yaml
     restart: unless-stopped
+
+  prometheus:
+    container_name: premetheus
+    image: prom/prometheus
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ./prometheus:/etc/prometheus
+    ports:
+      - 9090:9090
 
   transmission:
     image: ghcr.io/linuxserver/transmission
