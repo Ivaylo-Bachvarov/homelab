@@ -5,17 +5,19 @@ services:
     ports:
       - 3100:3100
     command: -config.file=/etc/loki/local-config.yaml
-    network_mode: host
+    networks:
+      - docker_network
     restart: unless-stopped
 
   prometheus:
-    container_name: premetheus
+    container_name: prometheus
     image: prom/prometheus
     volumes:
       - ./prometheus:/etc/prometheus
     ports:
       - 9090:9090
-    network_mode: host
+    networks:
+      - docker_network
     restart: unless-stopped
 
   node_exporter:
@@ -28,7 +30,8 @@ services:
       - '/:/host:ro,rslave'
     ports:
       - 9100:9100
-    network_mode: host
+    networks:
+      - docker_network
     restart: unless-stopped
 
   transmission:
@@ -46,5 +49,10 @@ services:
       - ./transmission/config:/config
       - ./transmission/watch:/watch
       - ~/hdds:/downloads
-    network_mode: host
+    networks:
+      - docker_network
     restart: unless-stopped
+
+networks:
+  docker_network:
+    driver: bridge
