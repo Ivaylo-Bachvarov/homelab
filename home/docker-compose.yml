@@ -5,6 +5,7 @@ services:
     ports:
       - 3100:3100
     command: -config.file=/etc/loki/local-config.yaml
+    network_mode: host
     restart: unless-stopped
 
   prometheus:
@@ -14,6 +15,7 @@ services:
       - ./prometheus:/etc/prometheus
     ports:
       - 9090:9090
+    network_mode: host
     restart: unless-stopped
 
   node_exporter:
@@ -26,6 +28,7 @@ services:
       - '/:/host:ro,rslave'
     ports:
       - 9100:9100
+    network_mode: host
     restart: unless-stopped
 
   transmission:
@@ -43,4 +46,5 @@ services:
       - ./transmission/config:/config
       - ./transmission/watch:/watch
       - ~/hdds:/downloads
+    network_mode: host
     restart: unless-stopped
