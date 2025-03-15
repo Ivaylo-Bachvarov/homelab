@@ -15,6 +15,17 @@ services:
       - ~/hdds:/hdds
     restart: unless-stopped
 
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    networks:
+      - docker_network
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
   loki:
     container_name: loki
     image: grafana/loki:latest
@@ -72,3 +83,6 @@ services:
 networks:
   docker_network:
     driver: bridge
+
+volumes:
+  grafana-storage: {}
