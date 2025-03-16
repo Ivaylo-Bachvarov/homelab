@@ -1,15 +1,15 @@
 services:
   plex:
     container_name: plex
-    image: ghcr.io/linuxserver/plex
+    image: plexinc/pms-docker
     networks:
       - docker_network
     ports:
       - 32400:32400
     environment:
-      - PUID=1000
-      - PGID=1000
-      - VERSION=docker
+      - TZ=Europe/Sofia
+      - ADVERTISE_IP=http://192.168.88.100:32400/
+
     volumes:
       - ./plex/config:/config
       - ~/hdds:/hdds
