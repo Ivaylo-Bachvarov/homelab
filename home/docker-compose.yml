@@ -9,7 +9,6 @@ services:
     environment:
       - TZ=Europe/Sofia
       - ADVERTISE_IP=http://192.168.88.100:32400/
-
     volumes:
       - ./plex/config:/config
       - ~/hdds:/hdds
@@ -79,6 +78,23 @@ services:
     networks:
       - docker_network
     restart: unless-stopped
+
+  frigate:
+    container_name: frigate
+    restart: unless-stopped
+    stop_grace_period: 30s
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: "512mb"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./frigate/config:/config
+      - ./frigate/media:/media/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "8971:8971"
 
 networks:
   docker_network:
