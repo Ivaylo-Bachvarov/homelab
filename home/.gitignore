@@ -3,3 +3,4 @@ transmission/config/dht.dat
 transmission/config/resume/
 transmission/config/stats.json
 plex/*
+frigate/config/
